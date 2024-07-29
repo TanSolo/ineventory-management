@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Item</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+            background-size: cover;
+            background-position: center center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: white;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        label, input {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px 0;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: darkgrey;
+            color: black;
+            box-sizing: border-box;
+        }
+        .info {
+            margin: 10px 0;
+            font-size: 14px;
+            color: lightgrey;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: darkgrey;
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+        .button:hover {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Inventory Item</h1>
+        <form method="POST">
+            <label for="name">Item Name:</label>
+            <input type="text" name="name" required>
+
+            <label for="quantity">Quantity:</label>
+            <input type="text" name="quantity" required>
+
+            <label for="reorder_point">Reorder Point:</label>
+            <input type="text" name="reorder_point" required>
+
+            <div class="info">
+                You can use shorthand notation like 10k for 10000, 1m for 1000000, and 1b for 1000000000.
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="button">Add Item</button>
+                <a href="/" class="button">Back to Main Page</a>
+            </div>
+        </form>
+        <div class="button-container" style="margin-top: 10px;">
+            <a href="/export" class="button">Export Data as CSV</a>
+            <a href="/import" class="button">Import Data from CSV</a>
+        </div>
+    </div>
+</body>
+</html>

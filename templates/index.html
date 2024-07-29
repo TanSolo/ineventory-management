@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+            background-size: cover;
+            background-position: center center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: white;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .warning {
+            color: red;
+        }
+        .flash-success {
+            background-color: green;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        a, button {
+            background-color: darkgrey;
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        a:hover, button:hover {
+            background-color: grey;
+        }
+        .hidden {
+            display: none;
+        }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .item-details {
+            text-align: left;
+            flex-grow: 1;
+        }
+        .item-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+    <script>
+        function confirmDeletion() {
+            return confirm('Are you sure you want to delete this item?');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <h1>Inventory Items</h1>
+        <a href="/add">Add New Item</a>
+        <form method="GET" action="/" style="margin: 20px 0;">
+            <input type="text" name="search" placeholder="Search items..." value="{{ request.args.get('search', '') }}">
+            <button type="submit">Search</button>
+        </form>
+        <ul>
+            {% for item in items %}
+                <li class="{% if not item.visible %}hidden{% endif %}">
+                    <div class="item">
+                        <div class="item-details">
+                            {{ item.name }} - Quantity: {{ item.quantity }} - Reorder Point: {{ item.reorder_point }}
+                            {% if item.quantity <= item.reorder_point %}
+                                <span class="warning">(Reorder needed)</span>
+                            {% endif %}
+                        </div>
+                        <div class="item-actions">
+                            <a href="/edit/{{ item.id }}">Edit</a>
+                            <form action="/delete/{{ item.id }}" method="POST" style="display:inline;" onsubmit="return confirmDeletion();">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
