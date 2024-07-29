@@ -17,5 +17,5 @@ The Inventory Management System is a web-based app designed to help businesses t
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/inventory-management.git
+   git clone https://github.com/TanSolo/inventory-management.git
    cd inventory-management
