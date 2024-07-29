@@ -94,7 +94,7 @@ def export_csv():
     output = BytesIO()
     output.write(si.getvalue().encode('utf-8'))
     output.seek(0)
-    return send_file(output, mimetype='text/csv', attachment_filename='inventory.csv', as_attachment=True)
+    return send_file(output, mimetype='text/csv', download_name='inventory.csv', as_attachment=True)
 
 
 @app.route('/import', methods=['GET', 'POST'])
